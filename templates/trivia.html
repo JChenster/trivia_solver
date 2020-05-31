@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Bootleg HQ</h1>
+    {% for q in question_bank %}
+      <p>
+        <b> {{q.question}} </b>
+        <br>
+        Category: {{q.category}}
+        <br>
+        A. {{q.correct}}
+        <br>
+        B. {{q.incorrect_one}}
+        <br>
+        C. {{q.incorrect_two}}
+        <br>
+        D. {{q.incorrect_three}}
+      </p>
+    {% endfor %}
+  </body>
+</html>
