@@ -36,7 +36,7 @@ def processPage(req):
     global allText
     allText = allText + '\n\n\n' + text
 
-def answer():
+def results():
     wordList = allText.lower().split()
     wordList = list(map(lambda s: s.strip(punc), wordList))
     hits = []
@@ -51,7 +51,35 @@ def answer():
         hits.append(counter)
     return hits
 
-def main(question_str, options_list):
+def rec(question, hits):
+    negative_words = ["not", "no", "none", "never"]
+
+    question = question.strip()
+    if question[-1] == '?':
+        question = question[:-1]
+    wordList = question.lower().split()
+
+    strip_negatives = list(filter(lambda s: s not in negative_words, wordList))
+
+    if (len(strip_negatives) == len(wordList)):
+        max_hits = max(hits)
+        if hits.count(max_hits) == 1:
+            for x in range(0,4):
+                if hits[x] == max_hits:
+                    return x+1
+        else:
+            return -1;
+    # Not question
+    else:
+        min_hits = min(hits)
+        if hits.count(min_hits) == 1:
+            for x in range(0,4):
+                if hits[x] == min_hits:
+                    return x+1
+        else:
+            return -1;
+
+def answer(question_str, options_list):
     global allText
     allText = ''
 
@@ -65,5 +93,5 @@ def main(question_str, options_list):
     options = ans
 
     search(question)
-    print('Searching:', ' '.join(googleWordList))
-    return answer()
+    print('Search Query:', ' '.join(googleWordList))
+    return results()

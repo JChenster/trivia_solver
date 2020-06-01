@@ -17,7 +17,8 @@ def index():
         correct = r["results"][x]["correct_answer"].replace("&quot;", '"').replace("&#039;","'")
         incorrect = r["results"][x]["incorrect_answers"]
         incorrect = list(map(lambda x: x.replace("&quot;", '"').replace("&#039;","'"), incorrect))
-        hits = solver.main(question, [correct] + incorrect)
+        hits = solver.answer(question, [correct] + incorrect)
+        rec = solver.rec(question, hits)
 
         question = {
             "category": r["results"][x]["category"],
@@ -27,8 +28,14 @@ def index():
             "incorrect_two": incorrect[1],
             "incorrect_three": incorrect[2],
             "hits": hits,
-            "isCorrect": hits[0] > hits[1] and hits[0] > hits[2] and hits[0] > hits[3]
+            "recommended": rec,
+            "isCorrect": rec == 1
         }
         question_bank.append(question)
 
-    return render_template("trivia.html", question_bank = question_bank)
+    correct_recs = 0
+    for question in question_bank:
+        if question["isCorrect"]:
+            correct_recs += 1
+
+    return render_template("trivia.html", question_bank = question_bank, correct_recs = correct_recs)

@@ -2,6 +2,9 @@
 <html>
   <body>
     <h1>Bootleg HQ</h1>
+    <p>
+      The solver got {{correct_recs}} questions right
+    </p>
     {% for q in question_bank %}
       <p>
         <b> {{q.question}} </b>
@@ -17,6 +20,8 @@
         D. {{q.incorrect_three}}
         <br>
         Hits: {{q.hits}}
+        <br>
+        Recommended: {{q.recommended}}
         <br>
         Is Correct?: {{q.isCorrect}}
       </p>
