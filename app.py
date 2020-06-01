@@ -13,11 +13,12 @@ def index():
     question_bank = []
 
     for x in range(0,12):
-        question = r["results"][x]["question"]
-        correct = r["results"][x]["correct_answer"]
+        question = r["results"][x]["question"].replace("&quot;", '"').replace("&#039;","'")
+        correct = r["results"][x]["correct_answer"].replace("&quot;", '"').replace("&#039;","'")
         incorrect = r["results"][x]["incorrect_answers"]
+        incorrect = list(map(lambda x: x.replace("&quot;", '"').replace("&#039;","'"), incorrect))
         hits = solver.main(question, [correct] + incorrect)
-        
+
         question = {
             "category": r["results"][x]["category"],
             "question": question,
